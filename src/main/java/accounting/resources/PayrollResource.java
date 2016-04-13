@@ -17,7 +17,7 @@ public class PayrollResource {
 
     @Inject
     public PayrollResource(TransactionDAO transactionDAO) {
-        this.transactionDAO = new DummyTransactionDAO();
+        this.transactionDAO = transactionDAO;
     }
 
     @POST

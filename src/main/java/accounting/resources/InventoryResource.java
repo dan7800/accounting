@@ -17,7 +17,7 @@ public class InventoryResource {
 
     @Inject
     public InventoryResource(TransactionDAO transactionDAO) {
-        this.transactionDAO = new DummyTransactionDAO();
+        this.transactionDAO = transactionDAO;
     }
 
     @POST

@@ -15,7 +15,7 @@ public class TaxResource {
 
     @Inject
     public TaxResource(TransactionDAO transactionDAO) {
-        this.transactionDAO = new DummyTransactionDAO();
+        this.transactionDAO = transactionDAO;
     }
 
     @GET

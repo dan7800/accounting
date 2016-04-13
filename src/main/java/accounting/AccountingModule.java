@@ -1,5 +1,6 @@
 package accounting;
 
+import accounting.data.DummyTransactionDAO;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Provides;
@@ -24,6 +25,7 @@ public class AccountingModule implements Module {
 
     @Provides
     public TransactionDAO providesTransactionDAO() {
-        return jdbi.onDemand(TransactionDAO.class);
+        //TODO Use acctual DAO: return jdbi.onDemand(TransactionDAO.class);
+        return new DummyTransactionDAO();
     }
 }

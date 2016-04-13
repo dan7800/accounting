@@ -16,7 +16,7 @@ public class TransactionResource {
 
     @Inject
     public TransactionResource(TransactionDAO transactionDAO) {
-        this.transactionDAO = new DummyTransactionDAO();
+        this.transactionDAO = transactionDAO;
     }
 
     @GET
