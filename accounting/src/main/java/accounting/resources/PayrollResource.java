@@ -1,8 +1,8 @@
-package resources;
+package accounting.resources;
 
-import data.DummyTransactionDAO;
-import data.TransactionDAO;
-import models.PayrollRequest;
+import accounting.data.DummyTransactionDAO;
+import accounting.data.TransactionDAO;
+import accounting.models.PayrollRequest;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;

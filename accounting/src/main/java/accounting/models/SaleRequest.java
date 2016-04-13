@@ -1,4 +1,4 @@
-package models;
+package accounting.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;

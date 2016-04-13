@@ -1,9 +1,9 @@
-package data;
+package accounting.data;
 
-import models.InventoryRequest;
-import models.PayrollRequest;
-import models.SaleRequest;
-import models.Transaction;
+import accounting.models.InventoryRequest;
+import accounting.models.PayrollRequest;
+import accounting.models.SaleRequest;
+import accounting.models.Transaction;
 
 public interface TransactionDAO {
 

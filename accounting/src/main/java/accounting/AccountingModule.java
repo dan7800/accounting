@@ -1,7 +1,9 @@
+package accounting;
+
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Provides;
-import data.TransactionDAO;
+import accounting.data.TransactionDAO;
 import org.skife.jdbi.v2.DBI;
 
 /**
@@ -14,7 +16,6 @@ public class AccountingModule implements Module {
 
     private DBI jdbi;
 
-    @Override
     public void configure(Binder binder) {}
 
     public void setJdbi(DBI jdbi) {

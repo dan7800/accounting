@@ -1,3 +1,5 @@
+package accounting;
+
 import com.hubspot.dropwizard.guice.GuiceBundle;
 import com.hubspot.rosetta.jdbi.RosettaMapperFactory;
 import io.dropwizard.Application;
@@ -6,7 +8,6 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.skife.jdbi.v2.DBI;
-import resources.*;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
@@ -38,6 +39,7 @@ public class AccountingApplication extends Application<AccountingConfiguration> 
         guiceBundle = GuiceBundle.<AccountingConfiguration>newBuilder()
                 .addModule(accountingModule)
                 .setConfigClass(AccountingConfiguration.class)
+                .enableAutoConfig(getClass().getPackage().getName())
                 .build();
 
         bootstrap.addBundle(guiceBundle);
@@ -52,8 +54,6 @@ public class AccountingApplication extends Application<AccountingConfiguration> 
 
         accountingModule.setJdbi(jdbi);
 
-        registerResources(environment, TransactionResource.class, SalesResource.class, TaxResource.class, PayrollResource.class, InventoryResource.class);
-
         // We probably won't need CORS since the domain will be the same, but it shouldn't hurt...
         // Enable CORS headers
         final FilterRegistration.Dynamic cors =
@@ -66,15 +66,5 @@ public class AccountingApplication extends Application<AccountingConfiguration> 
 
         // Add URL mapping
         cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
-    }
-
-    // Just an easy way to register all the resources without having to write
-    // the same super-long line of code.
-    private void registerResources(Environment environment, Class... resourceClasses) {
-        for (Class resourceClass : resourceClasses) {
-            // Grabs an instance of the resource class from the guice bundle
-            // and registers it.
-            environment.jersey().register(guiceBundle.getInjector().getInstance(resourceClass));
-        }
     }
 }
