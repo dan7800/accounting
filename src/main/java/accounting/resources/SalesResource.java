@@ -23,10 +23,7 @@ public class SalesResource {
     // Dependencies are injected
     @Inject
     public SalesResource(TransactionDAO transactionDAO) {
-        // TODO when we're actually implementing this, the dependency will be
-        // injected so this line will look like:
-        // this.transactionDAO = transactionDAO;
-        this.transactionDAO = new DummyTransactionDAO();
+        this.transactionDAO = transactionDAO;
     }
 
     @POST
