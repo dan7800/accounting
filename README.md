@@ -1,4 +1,4 @@
-# Accounting
+# Accountabilibuddies
 ####SWEN-343 Garfield Accounting Project
 
 ##Contribution Guidelines
