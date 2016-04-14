@@ -21,4 +21,14 @@ public class Transaction {
                 .add("id", id)
                 .toString();
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if(other == null ||  !(other instanceof Transaction)) {
+            return false;
+        } else {
+            Transaction t = (Transaction) other;
+            return t.id == id;
+        }
+    }
 }
