@@ -1,25 +1,26 @@
 package accounting.resources;
 
 import accounting.data.TransactionDAO;
+import accounting.models.RefundRequest;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-@Path("/tax")
+@Path("/refund")
 @Produces(MediaType.APPLICATION_JSON)
-public class TaxResource {
+@Consumes(MediaType.APPLICATION_JSON)
+public class RefundResource {
 
     private TransactionDAO transactionDAO;
 
     @Inject
-    public TaxResource(TransactionDAO transactionDAO) {
+    public RefundResource(TransactionDAO transactionDAO) {
         this.transactionDAO = transactionDAO;
     }
 
-    @GET
-    @Path("/sales/{salePrice}")
-    public double get(@PathParam("salePrice") double salePrice) {
-        return salePrice*1.08;
+    @POST
+    public long post(RefundRequest refundRequest) {
+        return transactionDAO.makeRefund(refundRequest);
     }
 }

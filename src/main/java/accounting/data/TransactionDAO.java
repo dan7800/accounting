@@ -1,9 +1,6 @@
 package accounting.data;
 
-import accounting.models.InventoryRequest;
-import accounting.models.PayrollRequest;
-import accounting.models.SaleRequest;
-import accounting.models.Transaction;
+import accounting.models.*;
 
 public interface TransactionDAO {
 
@@ -15,4 +12,6 @@ public interface TransactionDAO {
     public long payEmployee(PayrollRequest payrollRequest);
 
     public long purchaseInventory(InventoryRequest inventoryRequest);
+
+    public long makeRefund(RefundRequest refundRequest);
 }
