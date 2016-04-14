@@ -1,9 +1,6 @@
 package accounting.data;
 
-import accounting.models.InventoryRequest;
-import accounting.models.PayrollRequest;
-import accounting.models.SaleRequest;
-import accounting.models.Transaction;
+import accounting.models.*;
 
 // This is a dummy class.  The actual implementation will be written in sql in the interface.
 public class DummyTransactionDAO implements TransactionDAO {
@@ -22,5 +19,10 @@ public class DummyTransactionDAO implements TransactionDAO {
 
     public long purchaseInventory(InventoryRequest inventoryRequest) {
         return 2;
+    }
+
+    @Override
+    public long makeRefund(RefundRequest refundRequest) {
+        return 3;
     }
 }
