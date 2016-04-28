@@ -23,10 +23,11 @@ import static org.mockito.Mockito.when;
 public class RefundResourceTest {
 
     private static final TransactionDAO dao = mock(TransactionDAO.class);
+    private static final String apiKey = "aFakeKey";
 
     @ClassRule
     public static final ResourceTestRule resources = new ResourceTestRule.Builder()
-            .addResource(new RefundResource(dao))
+            .addResource(new RefundResource(dao, apiKey))
             .build();
 
     private final RefundRequest refundRequest = new RefundRequest(80.55, 13.37, "Refund $80.55 for $13.37 worth of merchandise.");
@@ -46,10 +47,34 @@ public class RefundResourceTest {
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(refundRequest);
         Response response = resources.client()
-                .target("/refund")
+                .target("/refund?apiKey=aFakeKey")
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.json(jsonString));
 
         assertThat(response.readEntity(Long.class)).isEqualTo(10l);
+    }
+
+    @Test
+    public void noApiKey() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(refundRequest);
+        Response response = resources.client()
+                .target("/refund")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.json(jsonString));
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.UNAUTHORIZED.getStatusCode());
+    }
+
+    @Test
+    public void badApiKey() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(refundRequest);
+        Response response = resources.client()
+                .target("/refund?apiKey=badKey")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.json(jsonString));
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.UNAUTHORIZED.getStatusCode());
     }
 }

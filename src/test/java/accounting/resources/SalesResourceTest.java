@@ -23,10 +23,11 @@ import static org.mockito.Mockito.when;
 public class SalesResourceTest {
 
     private static final TransactionDAO dao = mock(TransactionDAO.class);
+    private static final String apiKey = "aFakeKey";
 
     @ClassRule
     public static final ResourceTestRule resources = new ResourceTestRule.Builder()
-            .addResource(new SalesResource(dao))
+            .addResource(new SalesResource(dao, apiKey))
             .build();
 
     private final SaleRequest saleRequest = new SaleRequest(3.00, 5.00, "Pretended to sell a $3 phone for $5");
@@ -46,10 +47,34 @@ public class SalesResourceTest {
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(saleRequest);
         Response response = resources.client()
-                .target("/sale")
+                .target("/sale?apiKey=aFakeKey")
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.json(jsonString));
 
         assertThat(response.readEntity(Long.class)).isEqualTo(1l);
+    }
+
+    @Test
+    public void noApiKey() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(saleRequest);
+        Response response = resources.client()
+                .target("/sale")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.json(jsonString));
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.UNAUTHORIZED.getStatusCode());
+    }
+
+    @Test
+    public void badApiKey() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(saleRequest);
+        Response response = resources.client()
+                .target("/sale?apiKey=badKey")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.json(jsonString));
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.UNAUTHORIZED.getStatusCode());
     }
 }

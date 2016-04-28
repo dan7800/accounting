@@ -24,10 +24,11 @@ import static org.mockito.Mockito.when;
 public class TransactionResourceTest {
 
     private static final TransactionDAO dao = mock(TransactionDAO.class);
+    private static final String apiKey = "aFakeKey";
 
     @ClassRule
     public static final ResourceTestRule resources = new ResourceTestRule.Builder()
-            .addResource(new TransactionResource(dao))
+            .addResource(new TransactionResource(dao, apiKey, apiKey, apiKey))
             .build();
 
     private final Transaction transaction = new Transaction(5l);
@@ -45,11 +46,33 @@ public class TransactionResourceTest {
     @Test
     public void testMakeSale() throws JsonProcessingException {
         Response response = resources.client()
-                .target("/transactions/{id}")
+                .target("/transactions/{id}?apiKey=aFakeKey")
                 .resolveTemplate("id", 5l)
                 .request(MediaType.APPLICATION_JSON)
                 .get();
 
         assertThat(response.readEntity(Transaction.class)).isEqualTo(transaction);
+    }
+
+    @Test
+    public void noApiKey() throws JsonProcessingException {
+        Response response = resources.client()
+                .target("/transactions/{id}")
+                .resolveTemplate("id", 5l)
+                .request(MediaType.APPLICATION_JSON)
+                .get();
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.UNAUTHORIZED.getStatusCode());
+    }
+
+    @Test
+    public void badApiKey() throws JsonProcessingException {
+        Response response = resources.client()
+                .target("/transactions/{id}?apiKey=badKey")
+                .resolveTemplate("id", 5l)
+                .request(MediaType.APPLICATION_JSON)
+                .get();
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.UNAUTHORIZED.getStatusCode());
     }
 }
