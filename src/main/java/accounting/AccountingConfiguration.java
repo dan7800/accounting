@@ -20,4 +20,22 @@ public class AccountingConfiguration extends Configuration {
     public DataSourceFactory getDatabase() {
         return database;
     }
+
+    @NotNull
+    @JsonProperty("inventoryKey")
+    private String inventoryKey;
+
+    public String getInventoryKey() { return inventoryKey; }
+
+    @NotNull
+    @JsonProperty("humanResourcesKey")
+    private String humanResourcesKey;
+
+    public String getHumanResourcesKey() { return humanResourcesKey; }
+
+    @NotNull
+    @JsonProperty("salesKey")
+    private String salesKey;
+
+    public String getSalesKey() { return salesKey; }
 }

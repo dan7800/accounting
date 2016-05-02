@@ -24,10 +24,11 @@ import static org.mockito.Mockito.when;
 public class PayrollResourceTest {
 
     private static final TransactionDAO dao = mock(TransactionDAO.class);
+    private static final String apiKey = "aFakeKey";
 
     @ClassRule
     public static final ResourceTestRule resources = new ResourceTestRule.Builder()
-            .addResource(new PayrollResource(dao))
+            .addResource(new PayrollResource(dao, apiKey))
             .build();
 
     private final PayrollRequest payrollRequest = new PayrollRequest(15.00, "Paid an employee");
@@ -47,10 +48,34 @@ public class PayrollResourceTest {
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(payrollRequest);
         Response response = resources.client()
-                .target("/payroll")
+                .target("/payroll?apiKey=aFakeKey")
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.json(jsonString));
 
         assertThat(response.readEntity(Long.class)).isEqualTo(33l);
+    }
+
+    @Test
+    public void noApiKey() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(payrollRequest);
+        Response response = resources.client()
+                .target("/payroll")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.json(jsonString));
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.UNAUTHORIZED.getStatusCode());
+    }
+
+    @Test
+    public void badApiKey() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(payrollRequest);
+        Response response = resources.client()
+                .target("/payroll?apiKey=badKey")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.json(jsonString));
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.UNAUTHORIZED.getStatusCode());
     }
 }

@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -24,10 +25,11 @@ import static org.mockito.Mockito.when;
 public class InventoryResourceTest {
 
     private static final TransactionDAO dao = mock(TransactionDAO.class);
+    private static final String apiKey = "aFakeKey";
 
     @ClassRule
     public static final ResourceTestRule resources = new ResourceTestRule.Builder()
-            .addResource(new InventoryResource(dao))
+            .addResource(new InventoryResource(dao, apiKey))
             .build();
 
     private final InventoryRequest inventoryRequest = new InventoryRequest(3.77, "Bought some inventory");
@@ -47,10 +49,34 @@ public class InventoryResourceTest {
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(inventoryRequest);
         Response response = resources.client()
-                .target("/inventory")
+                .target("/inventory?apiKey=aFakeKey")
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.json(jsonString));
 
         assertThat(response.readEntity(Long.class)).isEqualTo(5l);
+    }
+
+    @Test
+    public void noApiKey() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(inventoryRequest);
+        Response response = resources.client()
+                .target("/inventory")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.json(jsonString));
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.UNAUTHORIZED.getStatusCode());
+    }
+
+    @Test
+    public void badApiKey() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(inventoryRequest);
+        Response response = resources.client()
+                .target("/inventory?apiKey=badKey")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.json(jsonString));
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.UNAUTHORIZED.getStatusCode());
     }
 }

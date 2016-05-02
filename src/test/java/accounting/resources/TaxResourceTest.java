@@ -23,10 +23,11 @@ import static org.mockito.Mockito.when;
 public class TaxResourceTest {
 
     private static final TransactionDAO dao = mock(TransactionDAO.class);
+    private static final String apiKey = "aFakeKey";
 
     @ClassRule
     public static final ResourceTestRule resources = new ResourceTestRule.Builder()
-            .addResource(new TaxResource(dao))
+            .addResource(new TaxResource(dao, apiKey))
             .build();
 
     private final double salePrice = 100.00;
@@ -35,11 +36,33 @@ public class TaxResourceTest {
     @Test
     public void testMakeSale() throws JsonProcessingException {
         Response response = resources.client()
-                .target("/tax/sales/{salePrice}")
+                .target("/tax/sales/{salePrice}?apiKey=aFakeKey")
                 .resolveTemplate("salePrice", salePrice)
                 .request(MediaType.APPLICATION_JSON)
                 .get();
 
         assertThat(response.readEntity(Double.class)).isEqualTo(expected);
+    }
+
+    @Test
+    public void noApiKey() throws JsonProcessingException {
+        Response response = resources.client()
+                .target("/tax/sales/{salePrice}")
+                .resolveTemplate("salePrice", salePrice)
+                .request(MediaType.APPLICATION_JSON)
+                .get();
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.UNAUTHORIZED.getStatusCode());
+    }
+
+    @Test
+    public void badApiKey() throws JsonProcessingException {
+        Response response = resources.client()
+                .target("/tax/sales/{salePrice}?apiKey=badKey")
+                .resolveTemplate("salePrice", salePrice)
+                .request(MediaType.APPLICATION_JSON)
+                .get();
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.UNAUTHORIZED.getStatusCode());
     }
 }
