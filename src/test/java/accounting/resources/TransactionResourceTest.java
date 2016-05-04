@@ -1,6 +1,7 @@
 package accounting.resources;
 
 import accounting.data.TransactionDAO;
+import accounting.models.Entry;
 import accounting.models.SaleRequest;
 import accounting.models.Transaction;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,6 +15,8 @@ import org.junit.Test;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -31,7 +34,7 @@ public class TransactionResourceTest {
             .addResource(new TransactionResource(dao, apiKey, apiKey, apiKey))
             .build();
 
-    private final Transaction transaction = new Transaction(5l);
+    private final Transaction transaction = new Transaction(5l, null, "", new ArrayList<Entry>());
 
     @Before
     public void setup() {

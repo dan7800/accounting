@@ -2,19 +2,19 @@ package accounting.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
-import org.joda.time.DateTime;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class Transaction {
 
     private long id;
-    private DateTime timestamp;
+    private LocalDate timestamp;
     private String description;
     private List<Entry> entries;
 
     public Transaction(@JsonProperty("id") long id,
-                       @JsonProperty("timestamp") DateTime timestamp,
+                       @JsonProperty("timestamp") LocalDate timestamp,
                        @JsonProperty("description") String description,
                        @JsonProperty("entries") List<Entry> entries) {
         this.id = id;
@@ -27,7 +27,7 @@ public class Transaction {
         return id;
     }
 
-    public DateTime getTimestamp() {
+    public LocalDate getTimestamp() {
         return timestamp;
     }
 
