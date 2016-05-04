@@ -4,6 +4,7 @@
 CREATE TABLE `transactions` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `timestamp` datetime NOT NULL,
+  `description` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -21,3 +22,5 @@ CREATE TABLE `accounts` (
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `accounts` (`name`) VALUES ('sales'), ('employees'), ('inventory');

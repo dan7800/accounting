@@ -2,6 +2,7 @@ package accounting.resources;
 
 import accounting.data.TransactionDAO;
 import accounting.models.InventoryRequest;
+import accounting.models.Transaction;
 
 import javax.inject.Inject;
 import javax.inject.Named;

@@ -2,23 +2,50 @@ package accounting.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
+import org.joda.time.DateTime;
+
+import java.util.List;
 
 public class Transaction {
 
     private long id;
+    private DateTime timestamp;
+    private String description;
+    private List<Entry> entries;
 
-    public Transaction(@JsonProperty("id") long id) {
+    public Transaction(@JsonProperty("id") long id,
+                       @JsonProperty("timestamp") DateTime timestamp,
+                       @JsonProperty("description") String description,
+                       @JsonProperty("entries") List<Entry> entries) {
         this.id = id;
+        this.timestamp = timestamp;
+        this.description = description;
+        this.entries = entries;
     }
 
     public long getId() {
         return id;
     }
 
+    public DateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public List<Entry> getEntries() {
+        return entries;
+    }
+
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
                 .add("id", id)
+                .add("timestamp", timestamp)
+                .add("description", description)
+                .add("entries", entries)
                 .toString();
     }
 
@@ -28,7 +55,12 @@ public class Transaction {
             return false;
         } else {
             Transaction t = (Transaction) other;
-            return t.id == id;
+            if (t.id != id) return false;
+            if (!t.timestamp.equals(timestamp)) return false;
+            if (!t.description.equals(description)) return false;
+            if (!t.entries.equals(entries)) return false;
+
+            return true;
         }
     }
 }
