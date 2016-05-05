@@ -5,6 +5,7 @@ import accounting.models.Transaction;
 import com.hubspot.rosetta.jdbi.RosettaMapperFactory;
 import org.skife.jdbi.v2.sqlobject.*;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapperFactory;
+import org.skife.jdbi.v2.sqlobject.SqlQuery;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
@@ -132,4 +133,8 @@ public abstract class TransactionDAO {
 
         return id;
     }
+
+    @SqlQuery("SELECT * FROM transactions")
+    public abstract List<Transaction> getAll();
+
 }
