@@ -1,17 +1,92 @@
 package accounting.data;
 
 import accounting.models.*;
+import accounting.models.Transaction;
+import com.hubspot.rosetta.jdbi.RosettaMapperFactory;
+import org.skife.jdbi.v2.sqlobject.*;
+import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapperFactory;
 
-public interface TransactionDAO {
+import java.util.List;
 
-    // TODO sql should go in here in the form of an @SqlUpdate("INSERT...") annotation
-    public long makeSale(SaleRequest saleRequest);
+@RegisterMapperFactory(RosettaMapperFactory.class)
+public abstract class TransactionDAO {
 
-    public Transaction get(long id);
+    @GetGeneratedKeys
+    @SqlUpdate("INSERT INTO transactions (timestamp, description) VALUES (NOW(), :description)")
+    public abstract long insertTransaction(@Bind("description") String description);
 
-    public long payEmployee(PayrollRequest payrollRequest);
+    @SqlQuery("SELECT * FROM transactions WHERE id = :id")
+    public abstract Transaction selectTransaction(@Bind("id") long id);
 
-    public long purchaseInventory(InventoryRequest inventoryRequest);
+    @GetGeneratedKeys
+    @SqlUpdate("INSERT INTO entries (transactionId, toAccountId, fromAccountId, amount) VALUES (:transactionId, :toAccountId.state, :fromAccountId.state, :amount)")
+    public abstract long insertEntry(@Bind("transactionId") long transactionId, @BindBean("toAccountId") Account toAccountId, @BindBean("fromAccountId") Account fromAccountId, @Bind("amount") double amount);
 
-    public long makeRefund(RefundRequest refundRequest);
+    @SqlQuery("SELECT * FROM entries WHERE id = :id")
+    public abstract Entry selectEntry(@Bind("id") long id);
+
+    @SqlQuery("SELECT * FROM entries WHERE transactionId = :transactionId")
+    public abstract List<Entry> selectEntriesByTransactionId(@Bind("transactionId") long transactionId);
+
+    @SqlUpdate("UPDATE accounts SET balance = balance + :balance WHERE id = :account.state")
+    public abstract void updateAccount(@BindBean("account") Account account, @Bind("balance") double balance);
+
+    @org.skife.jdbi.v2.sqlobject.Transaction
+    public Transaction get(long id) {
+        List<Entry> entries = selectEntriesByTransactionId(id);
+        Transaction transaction = selectTransaction(id);
+        transaction = new Transaction(id, transaction.getTimestamp(), transaction.getDescription(), entries);
+
+        return transaction;
+    }
+
+    public long insertEntryAndUpdateAccounts(long id, Account toAccount, Account fromAccount, double amount) {
+        updateAccount(toAccount, amount);
+        updateAccount(fromAccount, -1*amount);
+        return insertEntry(id, toAccount, fromAccount, amount);
+    }
+
+    @org.skife.jdbi.v2.sqlobject.Transaction
+    public long makeSale(SaleRequest saleRequest) {
+
+        long id = insertTransaction(saleRequest.getDescription());
+
+        insertEntryAndUpdateAccounts(id, Account.CASH, Account.REVENUES, saleRequest.getSalePrice());
+        insertEntryAndUpdateAccounts(id, Account.COGS, Account.INVENTORY, saleRequest.getCostOfGoodsSold());
+        insertEntryAndUpdateAccounts(id, Account.CASH, Account.SALES_TAX_PAYABLE, saleRequest.getSalePrice() * 0.08); // TODO make this a config thing
+
+        return id;
+    }
+
+    @org.skife.jdbi.v2.sqlobject.Transaction
+    public long payEmployee(PayrollRequest payrollRequest) {
+
+        long id = insertTransaction(payrollRequest.getDescription());
+
+        insertEntryAndUpdateAccounts(id, Account.EMPLOYEES, Account.CASH, payrollRequest.getPay());
+
+        return id;
+    }
+
+    @org.skife.jdbi.v2.sqlobject.Transaction
+    public long purchaseInventory(InventoryRequest inventoryRequest) {
+
+        long id = insertTransaction(inventoryRequest.getDescription());
+
+        insertEntryAndUpdateAccounts(id, Account.INVENTORY, Account.CASH, inventoryRequest.getCostOfGoods());
+
+        return id;
+    }
+
+    @org.skife.jdbi.v2.sqlobject.Transaction
+    public long makeRefund(RefundRequest refundRequest) {
+
+        long id = insertTransaction(refundRequest.getDescription());
+
+        insertEntryAndUpdateAccounts(id, Account.REFUNDS_PAID, Account.CASH, refundRequest.getRefundAmount());
+        insertEntryAndUpdateAccounts(id, Account.INVENTORY, Account.COGS, refundRequest.getValueOfReturns());
+        insertEntryAndUpdateAccounts(id, Account.SALES_TAX_PAYABLE, Account.CASH, refundRequest.getRefundAmount() * 0.08);
+
+        return id;
+    }
 }
