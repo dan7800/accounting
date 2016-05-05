@@ -15,6 +15,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Path("/")
@@ -54,10 +55,11 @@ public class ViewResource {
     public String get() {
         Writer stringWriter = new StringWriter();
         Template template = AccountingView.getTemplate();
-        DataModel model = new DataModel(getTransactionList());
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("transactions",getTransactionList());
         try {
             // process the template with the data model output to stringWriter
-            template.process(model, stringWriter);
+            template.process(map, stringWriter);
         } catch (TemplateException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -66,39 +68,4 @@ public class ViewResource {
         return stringWriter.toString();
     }
 
-    /*
-        Data used in the page template
-     */
-    private class DataModel extends WrappingTemplateModel implements TemplateSequenceModel {
-        List<Transaction> transactions;
-
-        public DataModel( List<Transaction> transactions ) {
-            this.transactions = transactions;
-        }
-
-        public TemplateModel get(int i) throws TemplateModelException {
-            return new TransactionTemplateModel(transactions.get(i));
-        }
-
-        public int size() throws TemplateModelException {
-            return transactions.size();
-        }
-
-        private class TransactionTemplateModel implements TemplateModel{
-
-            Transaction transaction;
-
-            public TransactionTemplateModel(Transaction transaction) {
-                this.transaction = transaction;
-            }
-
-            long getId() {
-                return transaction.getId();
-            }
-
-            String getDescription() {
-                return transaction.toString();
-            }
-        }
-    }
 }
