@@ -29,6 +29,7 @@ public class InventoryResource {
         if(!inventoryKey.equals(apiKey)) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
+
         return transactionDAO.purchaseInventory(inventoryRequest);
     }
 }

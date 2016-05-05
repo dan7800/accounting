@@ -24,4 +24,4 @@ CREATE TABLE `accounts` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `accounts` (`name`) VALUES ('sales'), ('employees'), ('inventory');
+INSERT INTO `accounts` (`name`) VALUES ('Employees'), ('Inventory'), ('Cash'), ('Revenues'), ('Cost of Goods Sold'), ('Sales Tax Payable'), ('Refunds Paid');
