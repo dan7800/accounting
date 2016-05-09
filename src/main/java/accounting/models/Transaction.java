@@ -4,17 +4,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public class Transaction {
 
     private long id;
-    private LocalDate timestamp;
+    private Date timestamp;
     private String description;
     private List<Entry> entries;
 
     public Transaction(@JsonProperty("id") long id,
-                       @JsonProperty("timestamp") LocalDate timestamp,
+                       @JsonProperty("timestamp") Date timestamp,
                        @JsonProperty("description") String description,
                        @JsonProperty("entries") List<Entry> entries) {
         this.id = id;
@@ -27,7 +28,7 @@ public class Transaction {
         return id;
     }
 
-    public LocalDate getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 

@@ -39,3 +39,12 @@ database:
 inventoryKey: inventory
 humanResourcesKey: human_resources
 salesKey: sales
+
+server:
+  applicationConnectors:
+  - type: http
+    port: 6969
+  adminConnectors:
+  - type: http
+    port: 5309
+
