@@ -36,6 +36,10 @@ database:
   # the minimum amount of time an connection must sit idle in the pool before it is eligible for eviction
   minIdleTime: 1 minute
 
+inventoryKey: inventory
+humanResourcesKey: human_resources
+salesKey: sales
+
 server:
   applicationConnectors:
   - type: http
@@ -44,6 +48,3 @@ server:
   - type: http
     port: 5309
 
-inventoryKey: a
-humanResourcesKey: b
-salesKey: c
