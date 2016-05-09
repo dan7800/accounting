@@ -7,11 +7,10 @@
 	<style name="Arial_Italic" isDefault="false" fontName="Arial" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<style name="Comic_Normal" isDefault="false" fontName="Comic Sans MS" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMIC.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 	<style name="Comic_Bold" isDefault="false" fontName="Comic Sans MS" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMICBD.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
-	<import value="accounting.models.Entry">
 	
 	<parameter name="ReportTitle" class="java.lang.String">
 	</parameter>
-	<parameter name="Date" class="org.joda.time.DateTime">
+	<parameter name="Date" class="java.util.Date">
 	</parameter>
 	
 	<queryString><![CDATA[SELECT * FROM entries WHERE entries.transactionId = transactions.id AND transactions.timestamp < $P{Date}]]></queryString>
@@ -119,7 +118,7 @@
 			<textField>
 				<reportElement x="185" y="0" width="50" height="11"/>
 				<textElement/>
-				<textFieldExpression class="java.sql.Double"><![CDATA[$F{Amount}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{Amount}]]></textFieldExpression>
 			</textField>
 
 			<line>

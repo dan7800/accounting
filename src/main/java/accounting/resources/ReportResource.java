@@ -1,7 +1,9 @@
 package accounting.resources;
 
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 
@@ -42,7 +44,8 @@ public class ReportResource {
     	Map<String, Object> parameters = new HashMap<String, Object>();
     	parameters.put("ReportTitle", reportName);
     	parameters.put("Date", month);
-    	JasperPrint jasperprint = JasperFillManager.fillReport(reportTemplate, parameters);
+    	JasperReport compiledReport = JasperCompileManager.compileReport(reportTemplate);
+    	JasperPrint jasperprint = JasperFillManager.fillReport(compiledReport, parameters);
     	
     	//need to change so it goes to downloads folder
     	OutputStream output = new FileOutputStream(new File(System.getProperty("user.home") + "/Downloads/MonthlyReport.pdf")); 
