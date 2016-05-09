@@ -5,6 +5,7 @@ import accounting.models.InvestmentRequest;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -23,7 +24,7 @@ public class InvestmentResource {
     }
 
     @POST
-    public long post(InvestmentRequest investmentRequest, @QueryParam("apiKey") String apiKey) {
+    public long post(@Valid InvestmentRequest investmentRequest, @QueryParam("apiKey") String apiKey) {
         if (!investmentKey.equals(apiKey)) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
