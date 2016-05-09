@@ -5,6 +5,7 @@ import accounting.models.RefundRequest;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -24,7 +25,7 @@ public class RefundResource {
     }
 
     @POST
-    public long post(RefundRequest refundRequest, @QueryParam("apiKey") String apiKey) {
+    public long post(@Valid RefundRequest refundRequest, @QueryParam("apiKey") String apiKey) {
         if(!salesKey.equals(apiKey)) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }

@@ -5,6 +5,7 @@ import accounting.models.SaleRequest;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -30,7 +31,7 @@ public class SalesResource {
     }
 
     @POST
-    public long post(SaleRequest saleRequest, @QueryParam("apiKey") String apiKey) {
+    public long post(@Valid SaleRequest saleRequest, @QueryParam("apiKey") String apiKey) {
         if(!salesKey.equals(apiKey)) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }

@@ -6,6 +6,7 @@ import accounting.models.Transaction;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,7 +26,7 @@ public class InventoryResource {
     }
 
     @POST
-    public long post(InventoryRequest inventoryRequest, @QueryParam("apiKey") String apiKey) {
+    public long post(@Valid InventoryRequest inventoryRequest, @QueryParam("apiKey") String apiKey) {
         if(!inventoryKey.equals(apiKey)) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }

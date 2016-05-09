@@ -3,8 +3,11 @@ package accounting.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 
+import javax.validation.constraints.Min;
+
 public class InvestmentRequest {
 
+    @Min(0)
     private double amount;
     private String description;
 
