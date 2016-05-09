@@ -3,6 +3,8 @@ package accounting.data;
 import accounting.models.*;
 import accounting.models.Transaction;
 import com.hubspot.rosetta.jdbi.RosettaMapperFactory;
+
+import org.joda.time.DateTime;
 import org.skife.jdbi.v2.sqlobject.*;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapperFactory;
 
@@ -29,6 +31,9 @@ public abstract class TransactionDAO {
 
     @SqlQuery("SELECT * FROM entries WHERE transactionId = :transactionId")
     public abstract List<Entry> selectEntriesByTransactionId(@Bind("transactionId") long transactionId);
+    
+    @SqlQuery("SELECT * FROM entries WHERE entries.transactionId = transactions.id AND transactions.timestamp < :date")
+    public abstract List<Entry> selectEntriesByDate(@Bind("date") DateTime date);
 
     @SqlUpdate("UPDATE accounts SET balance = balance + :balance WHERE id = :account.state")
     public abstract void updateAccount(@BindBean("account") Account account, @Bind("balance") double balance);
