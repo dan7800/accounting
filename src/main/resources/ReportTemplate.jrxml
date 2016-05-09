@@ -11,7 +11,7 @@
 	<parameter name="Date" class="java.util.Date">
 	</parameter>
 	
-	<queryString><![CDATA[SELECT * FROM entries WHERE entries.transactionId = transactions.id AND transactions.timestamp < $P{Date}]]></queryString>
+	<queryString><![CDATA[SELECT entries.id, entries.toAccountId, entries.fromAccountId, entries.amount FROM entries, transactions WHERE entries.transactionId = transactions.id AND transactions.timestamp < $P{Date}]]></queryString>
 	<field name="EntryID" class="java.lang.Long">
 	</field>
 	<field name="AccountTo" class="java.lang.Long">
