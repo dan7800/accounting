@@ -36,6 +36,15 @@ public abstract class TransactionDAO {
     @SqlQuery("SELECT balance FROM accounts WHERE id = :account.state")
     public abstract double getAccountBalance(@BindBean("account") Account account);
 
+    @SqlUpdate("DELETE from transactions")
+    public abstract void clearTransactions();
+
+    @SqlUpdate("DELETE from entries")
+    public abstract void clearEntries();
+
+    @SqlUpdate("UPDATE accounts SET balance = 0")
+    public abstract void clearAccounts();
+
     @org.skife.jdbi.v2.sqlobject.Transaction
     public Transaction get(long id) {
         List<Entry> entries = selectEntriesByTransactionId(id);
@@ -107,6 +116,15 @@ public abstract class TransactionDAO {
         insertEntryAndUpdateAccounts(id, Account.REFUNDS_PAID, Account.CASH, refundRequest.getRefundAmount());
         insertEntryAndUpdateAccounts(id, Account.INVENTORY, Account.COGS, refundRequest.getValueOfReturns());
         insertEntryAndUpdateAccounts(id, Account.SALES_TAX_PAYABLE, Account.CASH, refundRequest.getRefundAmount() * 0.08);
+
+        return id;
+    }
+
+    @org.skife.jdbi.v2.sqlobject.Transaction
+    public long invest(InvestmentRequest investmentRequest) {
+        long id = insertTransaction(investmentRequest.getDescription());
+
+        insertEntryAndUpdateAccounts(id, Account.CASH, Account.INVESTMENT, investmentRequest.getAmount());
 
         return id;
     }
