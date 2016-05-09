@@ -49,6 +49,10 @@ public abstract class TransactionDAO {
 
     @org.skife.jdbi.v2.sqlobject.Transaction
     public Transaction get(long id) {
+        return getHelper(id);
+    }
+
+    private Transaction getHelper(long id) {
         List<Entry> entries = selectEntriesByTransactionId(id);
         Transaction transaction = selectTransaction(id);
         if (Objects.isNull(transaction)) {
@@ -135,20 +139,19 @@ public abstract class TransactionDAO {
     }
 
     @SqlQuery("SELECT id FROM transactions")
-    protected abstract List<Integer> selectAllTransactionIds();
+    protected abstract List<Long> selectAllTransactionIds();
 
     @org.skife.jdbi.v2.sqlobject.Transaction
     public List<Transaction> getAllTransactions() {
         // list of transactions to return
         List<Transaction> transactions = new ArrayList<>();
-        // get all transaction Ids
-        List<Integer> transactionIds = selectAllTransactionIds();
-        // get each transaction individually so that entries are loaded into the transaction
-        for (Integer id : transactionIds ) {
-            transactions.add(get(id));
+//        // get all transaction Ids
+        List<Long> transactionIds = selectAllTransactionIds();
+//        // get each transaction individually so that entries are loaded into the transaction
+        for (long id : transactionIds ) {
+            transactions.add(getHelper(id));
         }
-        // return the list of transactions
+//        // return the list of transactions
         return transactions;
     }
-
 }
