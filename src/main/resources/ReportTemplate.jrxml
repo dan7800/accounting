@@ -13,21 +13,16 @@
 	</parameter>
 	<parameter name="Date" class="org.joda.time.DateTime">
 	</parameter>
-	<parameter name="Entries" class="java.util.List">
-	</parameter>
 	
-	<variable name="EntryID" class="java.lang.Long" resetType="None">
-		<variableExpression><![CDATA[$P{Entry.id}]]></variableExpression>
-	</variable>
-	<variable name="AccountTo" class="java.lang.Long" resetType="None">
-		<variableExpression><![CDATA[$P{Entry.toAccountId}]]></variableExpression>
-	</variable>
-	<variable name="AccountFrom" class="java.lang.Long" resetType="None">
-		<variableExpression><![CDATA[$P{Entry.fromAccountId}]]></variableExpression>
-	</variable>
-	<variable name="Amount" class="java.lang.Double" resetType="None">
-		<variableExpression><![CDATA[$P{Entry.amount}]]></variableExpression>
-	</variable>
+	<queryString><![CDATA[SELECT * FROM entries WHERE entries.transactionId = transactions.id AND transactions.timestamp < $P{Date}]]></queryString>
+	<field name="EntryID" class="java.lang.Long">
+	</field>
+	<field name="AccountTo" class="java.lang.Long">
+	</field>
+	<field name="AccountFrom" class="java.lang.Long">
+	</field>
+	<field name="Amount" class="java.lang.Double">
+	</field>
 
 	
 	<title>
@@ -108,23 +103,23 @@
 				<reportElement x="1" y="0" width="35" height="11">
 				</reportElement>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Long"><![CDATA[$V{EntryID}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{EntryID}]]></textFieldExpression>
 			</textField>
 
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="40" y="0" width="110" height="11"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.Long"><![CDATA[$V{AccountTo}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{AccountTo}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="155" y="0" width="25" height="11"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.Long"><![CDATA[$V{AccountFrom}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{AccountFrom}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="185" y="0" width="50" height="11"/>
 				<textElement/>
-				<textFieldExpression class="java.sql.Double"><![CDATA[$V{Amount}]]></textFieldExpression>
+				<textFieldExpression class="java.sql.Double"><![CDATA[$F{Amount}]]></textFieldExpression>
 			</textField>
 
 			<line>
