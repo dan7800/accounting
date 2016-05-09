@@ -15,7 +15,7 @@
       <#list entries as entry>
         <tr><td>${entry.id}</td><td>${entry.toAccount}</td><td>${entry.fromAccount}</td><td>${entry.amount}</td></tr>
       <#else>
-        No entries found.
+        <tr><td colspan="4">No entries found.</td></tr>
       </#list>
       </table>
     <#else>
