@@ -15,26 +15,35 @@ public abstract class TransactionDAO {
 
     @GetGeneratedKeys
     @SqlUpdate("INSERT INTO transactions (timestamp, description) VALUES (NOW(), :description)")
-    public abstract long insertTransaction(@Bind("description") String description);
+    protected abstract long insertTransaction(@Bind("description") String description);
 
     @SqlQuery("SELECT * FROM transactions WHERE id = :id")
-    public abstract Transaction selectTransaction(@Bind("id") long id);
+    protected abstract Transaction selectTransaction(@Bind("id") long id);
 
     @GetGeneratedKeys
     @SqlUpdate("INSERT INTO entries (transactionId, toAccountId, fromAccountId, amount) VALUES (:transactionId, :toAccountId.state, :fromAccountId.state, :amount)")
-    public abstract long insertEntry(@Bind("transactionId") long transactionId, @BindBean("toAccountId") Account toAccountId, @BindBean("fromAccountId") Account fromAccountId, @Bind("amount") double amount);
+    protected abstract long insertEntry(@Bind("transactionId") long transactionId, @BindBean("toAccountId") Account toAccountId, @BindBean("fromAccountId") Account fromAccountId, @Bind("amount") double amount);
 
     @SqlQuery("SELECT * FROM entries WHERE id = :id")
-    public abstract Entry selectEntry(@Bind("id") long id);
+    protected abstract Entry selectEntry(@Bind("id") long id);
 
     @SqlQuery("SELECT * FROM entries WHERE transactionId = :transactionId")
-    public abstract List<Entry> selectEntriesByTransactionId(@Bind("transactionId") long transactionId);
+    protected abstract List<Entry> selectEntriesByTransactionId(@Bind("transactionId") long transactionId);
 
     @SqlUpdate("UPDATE accounts SET balance = balance + :balance WHERE id = :account.state")
     public abstract void updateAccount(@BindBean("account") Account account, @Bind("balance") double balance);
 
     @SqlQuery("SELECT balance FROM accounts WHERE id = :account.state")
     public abstract double getAccountBalance(@BindBean("account") Account account);
+
+    @SqlUpdate("DELETE from transactions")
+    public abstract void clearTransactions();
+
+    @SqlUpdate("DELETE from entries")
+    public abstract void clearEntries();
+
+    @SqlUpdate("UPDATE accounts SET balance = 0")
+    public abstract void clearAccounts();
 
     @org.skife.jdbi.v2.sqlobject.Transaction
     public Transaction get(long id) {
@@ -45,7 +54,7 @@ public abstract class TransactionDAO {
         return transaction;
     }
 
-    public long insertEntryAndUpdateAccounts(long id, Account toAccount, Account fromAccount, double amount) {
+    private long insertEntryAndUpdateAccounts(long id, Account toAccount, Account fromAccount, double amount) {
         updateAccount(toAccount, amount);
         updateAccount(fromAccount, -1*amount);
         return insertEntry(id, toAccount, fromAccount, amount);
@@ -107,6 +116,15 @@ public abstract class TransactionDAO {
         insertEntryAndUpdateAccounts(id, Account.REFUNDS_PAID, Account.CASH, refundRequest.getRefundAmount());
         insertEntryAndUpdateAccounts(id, Account.INVENTORY, Account.COGS, refundRequest.getValueOfReturns());
         insertEntryAndUpdateAccounts(id, Account.SALES_TAX_PAYABLE, Account.CASH, refundRequest.getRefundAmount() * 0.08);
+
+        return id;
+    }
+
+    @org.skife.jdbi.v2.sqlobject.Transaction
+    public long invest(InvestmentRequest investmentRequest) {
+        long id = insertTransaction(investmentRequest.getDescription());
+
+        insertEntryAndUpdateAccounts(id, Account.CASH, Account.INVESTMENT, investmentRequest.getAmount());
 
         return id;
     }
