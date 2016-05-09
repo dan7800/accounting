@@ -11,9 +11,19 @@
     <#list transactions as transaction>
       #${transaction.id} : ${transaction.timestampString} - ${transaction.description}
       <table border=1>
-      <th><td>ID</td><td>TO</td><td>FROM</td><td>AMOUNT</td></th>
+      <tr>
+        <th>ID</th>
+        <th>TO</th>
+        <th>FROM</th>
+        <th>AMOUNT</th>
+      </tr>
       <#list entries as entry>
-        <tr><td>${entry.id}</td><td>${entry.toAccount}</td><td>${entry.fromAccount}</td><td>${entry.amount}</td></tr>
+        <tr>
+            <td>${entry.id}</td>
+            <td>${entry.toAccount}</td>
+            <td>${entry.fromAccount}</td>
+            <td>${entry.amount}</td>
+        </tr>
       <#else>
         <tr><td colspan="4">No entries found.</td></tr>
       </#list>
