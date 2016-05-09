@@ -32,7 +32,7 @@ public class ReportResource {
     }
     
     public void generatePDF() throws JRException, IOException {
-    	String reportTemplate = "src/main/resources";
+    	String reportTemplate = "src/main/resources/ReportTemplate.jrxml";
     	
     	DateTime month = DateTime.now();
     	month.minusDays(month.getDayOfMonth());
