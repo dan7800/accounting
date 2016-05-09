@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>${title}</title>
-    <link rel="stylesheet" href="http://yul.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet/css" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
 </head>
 <body>
     <h1> Welcome to ${title}! </h1>
