@@ -2,6 +2,7 @@ package accounting.resources;
 
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -39,15 +40,14 @@ public class ReportResource {
     	DateTime month = DateTime.now();
     	month.minusDays(month.getDayOfMonth());
     	month.minusHours(month.getHourOfDay());
-    	String reportName = month.monthOfYear().getAsString() + "Report";
+    	String reportName = month.monthOfYear().getAsText() + " Report";
     	
     	Map<String, Object> parameters = new HashMap<String, Object>();
     	parameters.put("ReportTitle", reportName);
     	parameters.put("Date", month);
     	JasperReport compiledReport = JasperCompileManager.compileReport(reportTemplate);
-    	JasperPrint jasperprint = JasperFillManager.fillReport(compiledReport, parameters);
+    	JasperPrint jasperprint = JasperFillManager.fillReport(compiledReport, parameters,  new JREmptyDataSource());
     	
-    	//need to change so it goes to downloads folder
     	OutputStream output = new FileOutputStream(new File(System.getProperty("user.home") + "/Downloads/MonthlyReport.pdf")); 
     	JasperExportManager.exportReportToPdfStream(jasperprint, output); 
     	output.close();
