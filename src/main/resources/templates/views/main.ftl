@@ -17,7 +17,7 @@
         <th>FROM</th>
         <th>AMOUNT</th>
       </tr>
-      <#list entries as entry>
+      <#list transaction.entries as entry>
         <tr>
             <td>${entry.id}</td>
             <td>${entry.toAccount}</td>
