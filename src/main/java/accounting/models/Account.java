@@ -11,7 +11,8 @@ public enum Account {
     REVENUES(4),
     COGS(5),
     SALES_TAX_PAYABLE(6),
-    REFUNDS_PAID(7);
+    REFUNDS_PAID(7),
+    INVESTMENT(8);
 
     private final int state;
 
@@ -26,7 +27,7 @@ public enum Account {
 
     @RosettaCreator
     public static Account fromInt(int state) {
-        if (state > 7) return UNKNOWN;
+        if (state > 8) return UNKNOWN;
         return Account.values()[state];
     }
 }
