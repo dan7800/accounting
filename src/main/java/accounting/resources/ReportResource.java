@@ -13,6 +13,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,31 +26,36 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.joda.time.DateTime;
+
+
+import io.dropwizard.db.DataSourceFactory;
+
 
 @Path("/reports")
 @Produces(MediaType.APPLICATION_JSON)
 public class ReportResource {
 
+	private DataSourceFactory dsf;
 
     @Inject
-    public ReportResource() {
-    	
+    public ReportResource(DataSourceFactory dsf) {
+    	this.dsf = dsf;
     }
     
-    public void generatePDF() throws JRException, IOException {
+    @SuppressWarnings("deprecation")
+	public void generatePDF() throws JRException, IOException, SQLException {
     	String reportTemplate = "src/main/resources/ReportTemplate.jrxml";
     	
-    	DateTime month = DateTime.now();
-    	month.minusDays(month.getDayOfMonth());
-    	month.minusHours(month.getHourOfDay());
-    	String reportName = month.monthOfYear().getAsText() + " Report";
+    	Date month = new Date();
+    	month.setDate(1);
+		String reportName = month.getMonth() + " Report";
     	
     	Map<String, Object> parameters = new HashMap<String, Object>();
     	parameters.put("ReportTitle", reportName);
     	parameters.put("Date", month);
     	JasperReport compiledReport = JasperCompileManager.compileReport(reportTemplate);
-    	JasperPrint jasperprint = JasperFillManager.fillReport(compiledReport, parameters,  new JREmptyDataSource());
+    	Connection connection = DriverManager.getConnection(dsf.getUrl(), dsf.getUser(), dsf.getPassword());
+    	JasperPrint jasperprint = JasperFillManager.fillReport(compiledReport, parameters, connection);
     	
     	OutputStream output = new FileOutputStream(new File(System.getProperty("user.home") + "/Downloads/MonthlyReport.pdf")); 
     	JasperExportManager.exportReportToPdfStream(jasperprint, output); 
