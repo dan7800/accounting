@@ -12,7 +12,7 @@ public class InventoryRequest {
     private String description;
 
     public InventoryRequest(@JsonProperty("costOfGoods") double costOfGoods,
-                             @JsonProperty("description") String description) {
+                            @JsonProperty("description") String description) {
         this.costOfGoods = costOfGoods;
         this.description = description;
     }
