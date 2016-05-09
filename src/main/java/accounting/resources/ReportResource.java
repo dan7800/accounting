@@ -32,7 +32,7 @@ public class ReportResource {
     }
     
     public void generatePDF() throws JRException, IOException {
-    	String reportTemplate = "";
+    	String reportTemplate = "src/main/resources";
     	
     	DateTime month = DateTime.now();
     	month.minusDays(month.getDayOfMonth());
@@ -45,7 +45,7 @@ public class ReportResource {
     	JasperPrint jasperprint = JasperFillManager.fillReport(reportTemplate, parameters);
     	
     	//need to change so it goes to downloads folder
-    	OutputStream output = new FileOutputStream(new File("c:/output/MonthlyReport.pdf")); 
+    	OutputStream output = new FileOutputStream(new File(System.getProperty("user.home") + "/Downloads/MonthlyReport.pdf")); 
     	JasperExportManager.exportReportToPdfStream(jasperprint, output); 
     	output.close();
     	
