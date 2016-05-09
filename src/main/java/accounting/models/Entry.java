@@ -35,6 +35,10 @@ public class Entry {
         return toAccountId;
     }
 
+    public String getToAccount() { return Account.getName((int)this.getToAccountId());}
+
+    public String getFromAccount() { return Account.getName((int)this.getFromAccountId());}
+
     public long getFromAccountId() {
         return fromAccountId;
     }

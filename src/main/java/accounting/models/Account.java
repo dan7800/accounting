@@ -15,9 +15,17 @@ public enum Account {
     INVESTMENT(8);
 
     private final int state;
+    private final static String[] names = {
+        "Unknown","Employees","Inventory","Cash","Revenues",
+        "Cost of Goods Sold","Sales Tax Payable","Refunds Paid"};
 
     Account(int state) {
         this.state = state;
+    }
+
+    public static String getName(int state) {
+        if (state < 0 || state > 7) state = 0;
+        return names[state];
     }
 
     @RosettaValue

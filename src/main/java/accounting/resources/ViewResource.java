@@ -34,7 +34,7 @@ public class ViewResource {
         // if last update was more than msBuffer milliseconds ago, update list
         if ( lastUpdated == null || lastUpdated.getTime() + msBuffer < current.getTime() ) {
             // update transaction list
-            transactionList = transactionDAO.getAll();
+            transactionList = transactionDAO.getAllTransactions();
 
             // update lastUpdated
             lastUpdated = current;
