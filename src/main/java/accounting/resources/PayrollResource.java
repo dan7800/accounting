@@ -5,6 +5,7 @@ import accounting.models.PayrollRequest;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -24,7 +25,7 @@ public class PayrollResource {
     }
 
     @POST
-    public long post(PayrollRequest payrollRequest, @QueryParam("apiKey") String apiKey) {
+    public long post(@Valid PayrollRequest payrollRequest, @QueryParam("apiKey") String apiKey) {
         if(!humanResourcesKey.equals(apiKey)) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }

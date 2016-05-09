@@ -3,12 +3,16 @@ package accounting.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 
+import javax.validation.constraints.Min;
+
 /**
  * Just a basic POJO to represent the body of a request to the /payroll endpoint.
  */
 public class PayrollRequest {
 
+    @Min(0)
     private double pay;
+
     private String description;
 
     public PayrollRequest(@JsonProperty("pay") double pay,
