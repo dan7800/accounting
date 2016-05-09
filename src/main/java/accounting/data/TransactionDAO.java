@@ -45,6 +45,12 @@ public abstract class TransactionDAO {
         return transaction;
     }
 
+    public List<Entry> getEntriesOfMonth(DateTime month) {
+        List<Entry> entries = selectEntriesByDate(month);
+
+        return entries;
+    }
+    
     public long insertEntryAndUpdateAccounts(long id, Account toAccount, Account fromAccount, double amount) {
         updateAccount(toAccount, amount);
         updateAccount(fromAccount, -1*amount);
