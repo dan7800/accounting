@@ -3,7 +3,6 @@ package accounting.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +30,8 @@ public class Transaction {
     public Date getTimestamp() {
         return timestamp;
     }
+
+    public String getTimestampString() { return timestamp.toString(); }
 
     public String getDescription() {
         return description;

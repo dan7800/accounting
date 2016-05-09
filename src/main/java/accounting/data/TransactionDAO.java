@@ -145,13 +145,13 @@ public abstract class TransactionDAO {
     public List<Transaction> getAllTransactions() {
         // list of transactions to return
         List<Transaction> transactions = new ArrayList<>();
-//        // get all transaction Ids
+        // get all transaction Ids
         List<Long> transactionIds = selectAllTransactionIds();
-//        // get each transaction individually so that entries are loaded into the transaction
+        // get each transaction individually so that entries are loaded into the transaction
         for (long id : transactionIds ) {
             transactions.add(getHelper(id));
         }
-//        // return the list of transactions
+        // return the list of transactions
         return transactions;
     }
 }
