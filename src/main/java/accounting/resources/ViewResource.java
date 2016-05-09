@@ -56,6 +56,7 @@ public class ViewResource {
         Writer stringWriter = new StringWriter();
         Template template = AccountingView.getTemplate();
         HashMap<String,Object> map = new HashMap<>();
+        map.put("title","Krutz Corp. - Accounting Buddy");
         map.put("transactions",getTransactionList());
         try {
             // process the template with the data model output to stringWriter
