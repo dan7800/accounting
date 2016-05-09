@@ -1,5 +1,6 @@
 package accounting.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 
@@ -11,6 +12,7 @@ public class Entry {
     private long fromAccountId;
     private double amount;
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public Entry(@JsonProperty("id") long id,
                  @JsonProperty("transactionId") long transactionId,
                  @JsonProperty("toAccountId") long toAccountId,

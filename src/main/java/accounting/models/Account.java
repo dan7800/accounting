@@ -1,8 +1,10 @@
 package accounting.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hubspot.rosetta.annotations.RosettaCreator;
 import com.hubspot.rosetta.annotations.RosettaValue;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public enum Account {
     UNKNOWN(0),
     EMPLOYEES(1),

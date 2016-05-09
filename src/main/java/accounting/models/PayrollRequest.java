@@ -1,5 +1,6 @@
 package accounting.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 
@@ -8,6 +9,7 @@ import javax.validation.constraints.Min;
 /**
  * Just a basic POJO to represent the body of a request to the /payroll endpoint.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PayrollRequest {
 
     @Min(0)
