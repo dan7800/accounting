@@ -47,4 +47,9 @@ public class AccountingModule implements Module {
         return configuration.getSalesKey();
     }
 
+    @Provides
+    @Named("investmentKey")
+    public String providesInvestmentKey(AccountingConfiguration configuration) {
+        return configuration.getInvestmentKey();
+    }
 }
