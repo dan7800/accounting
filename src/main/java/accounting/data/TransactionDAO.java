@@ -9,6 +9,7 @@ import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapperFactory;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Objects;
 
 @RegisterMapperFactory(RosettaMapperFactory.class)
 public abstract class TransactionDAO {
@@ -49,6 +50,9 @@ public abstract class TransactionDAO {
     public Transaction get(long id) {
         List<Entry> entries = selectEntriesByTransactionId(id);
         Transaction transaction = selectTransaction(id);
+        if (Objects.isNull(transaction)) {
+            throw new WebApplicationException("No transaction exists for this id.", Response.Status.NO_CONTENT);
+        }
         transaction = new Transaction(id, transaction.getTimestamp(), transaction.getDescription(), entries);
 
         return transaction;
