@@ -37,7 +37,7 @@ public class ReportResource {
         String reportTemplate = "src/main/resources/ReportTemplate.jrxml";
 
         LocalDate month = LocalDate.now();
-        month.withDayOfMonth(1);
+        month = month.withDayOfMonth(1);
 
         String reportName = (month.getMonth().getValue()) + "/" + (month.getYear()) + " Report";
 
