@@ -65,7 +65,7 @@ public abstract class TransactionDAO {
         return transaction;
     }
 
-    public long insertEntryAndUpdateAccounts(long id, Account toAccount, Account fromAccount, double amount) {
+    private long insertEntryAndUpdateAccounts(long id, Account toAccount, Account fromAccount, double amount) {
         updateAccount(toAccount, amount);
         updateAccount(fromAccount, -1*amount);
         return insertEntry(id, toAccount, fromAccount, amount);
