@@ -31,9 +31,6 @@ public abstract class TransactionDAO {
 
     @SqlQuery("SELECT * FROM entries WHERE transactionId = :transactionId")
     public abstract List<Entry> selectEntriesByTransactionId(@Bind("transactionId") long transactionId);
-    
-    @SqlQuery("SELECT * FROM entries WHERE entries.transactionId = transactions.id AND transactions.timestamp < :date")
-    public abstract List<Entry> selectEntriesByDate(@Bind("date") DateTime date);
 
     @SqlUpdate("UPDATE accounts SET balance = balance + :balance WHERE id = :account.state")
     public abstract void updateAccount(@BindBean("account") Account account, @Bind("balance") double balance);
@@ -48,12 +45,6 @@ public abstract class TransactionDAO {
         transaction = new Transaction(id, transaction.getTimestamp(), transaction.getDescription(), entries);
 
         return transaction;
-    }
-
-    public List<Entry> getEntriesOfMonth(DateTime month) {
-        List<Entry> entries = selectEntriesByDate(month);
-
-        return entries;
     }
     
     public long insertEntryAndUpdateAccounts(long id, Account toAccount, Account fromAccount, double amount) {
