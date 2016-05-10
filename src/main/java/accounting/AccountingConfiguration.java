@@ -38,4 +38,12 @@ public class AccountingConfiguration extends Configuration {
     private String salesKey;
 
     public String getSalesKey() { return salesKey; }
+
+    @NotNull
+    @JsonProperty("investmentKey")
+    private String investmentKey;
+
+    public String getInvestmentKey() {
+        return investmentKey;
+    }
 }

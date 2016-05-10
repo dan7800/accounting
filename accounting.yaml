@@ -39,6 +39,7 @@ database:
 inventoryKey: inventory
 humanResourcesKey: human_resources
 salesKey: sales
+investmentKey: investment
 
 server:
   applicationConnectors:
