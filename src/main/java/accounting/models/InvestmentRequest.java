@@ -5,24 +5,20 @@ import com.google.common.base.Objects;
 
 import javax.validation.constraints.Min;
 
-/**
- * Just a basic POJO to represent the body of a request to the /payroll endpoint.
- */
-public class PayrollRequest {
+public class InvestmentRequest {
 
     @Min(0)
-    private double pay;
-
+    private double amount;
     private String description;
 
-    public PayrollRequest(@JsonProperty("pay") double pay,
-                          @JsonProperty("description") String description) {
-        this.pay = pay;
+    public InvestmentRequest(@JsonProperty("amount") double amount,
+                             @JsonProperty("description") String description) {
+        this.amount = amount;
         this.description = description;
     }
 
-    public double getPay() {
-        return pay;
+    public double getAmount() {
+        return amount;
     }
 
     public String getDescription() {
@@ -32,7 +28,7 @@ public class PayrollRequest {
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
-                .add("pay", pay)
+                .add("amount", amount)
                 .add("description", description)
                 .toString();
     }
