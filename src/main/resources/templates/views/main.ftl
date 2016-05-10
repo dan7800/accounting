@@ -17,6 +17,25 @@
 </head>
 <body>
     <h1> Welcome to ${title}! </h1>
+    <h2>Accounts:</h2>
+    <div>
+      <table border=1 class="pure-table">
+        <thead>
+          <tr>
+            <th>NAME</th>
+            <th>BALANCE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <#list accounts as account>
+            <tr>
+              <td>${account.name}</td>
+              <td>${account.balance}</td>
+            </tr>
+          </#list>
+        </tbody>
+      </table>
+    </div>
     <button type="button" onclick="makeInvestment()">Invest $100,000</button>
     <br/>
     <form action="/pdf-report" method="get">

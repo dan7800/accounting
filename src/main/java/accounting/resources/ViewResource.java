@@ -58,6 +58,7 @@ public class ViewResource {
         HashMap<String,Object> map = new HashMap<>();
         map.put("title","Krutz Corp. - Accounting Buddy");
         map.put("transactions",getTransactionList());
+        map.put("accounts", transactionDAO.selectAllAccounts());
         try {
             // process the template with the data model output to stringWriter
             template.process(map, stringWriter);

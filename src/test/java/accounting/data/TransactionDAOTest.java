@@ -32,7 +32,7 @@ public class TransactionDAOTest {
     @Test
     public void testMakeSale() {
         clearAll();
-        dao.updateAccount(Account.INVENTORY, 10);
+        dao.updateAccount(AccountEnum.INVENTORY, 10);
 
         SaleRequest request = new SaleRequest(10, 100, "some description");
         long id = dao.makeSale(request);
@@ -44,33 +44,33 @@ public class TransactionDAOTest {
 
         Entry first = transaction.getEntries().get(0);
         assertThat(first.getAmount()).isEqualTo(request.getSalePrice());
-        assertThat(first.getFromAccountId()).isEqualTo(Account.REVENUES.getState());
-        assertThat(first.getToAccountId()).isEqualTo(Account.CASH.getState());
+        assertThat(first.getFromAccountId()).isEqualTo(AccountEnum.REVENUES.getState());
+        assertThat(first.getToAccountId()).isEqualTo(AccountEnum.CASH.getState());
         assertThat(first.getTransactionId()).isEqualTo(id);
 
         Entry second = transaction.getEntries().get(1);
         assertThat(second.getAmount()).isEqualTo(request.getCostOfGoodsSold());
-        assertThat(second.getFromAccountId()).isEqualTo(Account.INVENTORY.getState());
-        assertThat(second.getToAccountId()).isEqualTo(Account.COGS.getState());
+        assertThat(second.getFromAccountId()).isEqualTo(AccountEnum.INVENTORY.getState());
+        assertThat(second.getToAccountId()).isEqualTo(AccountEnum.COGS.getState());
         assertThat(second.getTransactionId()).isEqualTo(id);
 
         Entry third = transaction.getEntries().get(2);
         assertThat(third.getAmount()).isEqualTo(request.getSalePrice() * 0.08);
-        assertThat(third.getFromAccountId()).isEqualTo(Account.SALES_TAX_PAYABLE.getState());
-        assertThat(third.getToAccountId()).isEqualTo(Account.CASH.getState());
+        assertThat(third.getFromAccountId()).isEqualTo(AccountEnum.SALES_TAX_PAYABLE.getState());
+        assertThat(third.getToAccountId()).isEqualTo(AccountEnum.CASH.getState());
         assertThat(third.getTransactionId()).isEqualTo(id);
 
-        assertThat(dao.getAccountBalance(Account.CASH)).isEqualTo(108);
-        assertThat(dao.getAccountBalance(Account.REVENUES)).isEqualTo(-100);
-        assertThat(dao.getAccountBalance(Account.COGS)).isEqualTo(10);
-        assertThat(dao.getAccountBalance(Account.INVENTORY)).isEqualTo(0);
-        assertThat(dao.getAccountBalance(Account.SALES_TAX_PAYABLE)).isEqualTo(-8);
+        assertThat(dao.getAccountBalance(AccountEnum.CASH)).isEqualTo(108);
+        assertThat(dao.getAccountBalance(AccountEnum.REVENUES)).isEqualTo(-100);
+        assertThat(dao.getAccountBalance(AccountEnum.COGS)).isEqualTo(10);
+        assertThat(dao.getAccountBalance(AccountEnum.INVENTORY)).isEqualTo(0);
+        assertThat(dao.getAccountBalance(AccountEnum.SALES_TAX_PAYABLE)).isEqualTo(-8);
     }
 
     @Test
     public void testPayEmployee() {
         clearAll();
-        dao.updateAccount(Account.CASH, 100);
+        dao.updateAccount(AccountEnum.CASH, 100);
 
         PayrollRequest request = new PayrollRequest(100, "you gotta pay up!");
         long id = dao.payEmployee(request);
@@ -82,18 +82,18 @@ public class TransactionDAOTest {
 
         Entry first = transaction.getEntries().get(0);
         assertThat(first.getAmount()).isEqualTo(request.getPay());
-        assertThat(first.getFromAccountId()).isEqualTo(Account.CASH.getState());
-        assertThat(first.getToAccountId()).isEqualTo(Account.EMPLOYEES.getState());
+        assertThat(first.getFromAccountId()).isEqualTo(AccountEnum.CASH.getState());
+        assertThat(first.getToAccountId()).isEqualTo(AccountEnum.EMPLOYEES.getState());
         assertThat(first.getTransactionId()).isEqualTo(id);
 
-        assertThat(dao.getAccountBalance(Account.CASH)).isEqualTo(0);
-        assertThat(dao.getAccountBalance(Account.EMPLOYEES)).isEqualTo(100);
+        assertThat(dao.getAccountBalance(AccountEnum.CASH)).isEqualTo(0);
+        assertThat(dao.getAccountBalance(AccountEnum.EMPLOYEES)).isEqualTo(100);
     }
 
     @Test
     public void testPurchaseInventory() {
         clearAll();
-        dao.updateAccount(Account.CASH, 50);
+        dao.updateAccount(AccountEnum.CASH, 50);
 
         InventoryRequest request = new InventoryRequest(50, "gimme phones");
         long id = dao.purchaseInventory(request);
@@ -105,18 +105,18 @@ public class TransactionDAOTest {
 
         Entry first = transaction.getEntries().get(0);
         assertThat(first.getAmount()).isEqualTo(request.getCostOfGoods());
-        assertThat(first.getFromAccountId()).isEqualTo(Account.CASH.getState());
-        assertThat(first.getToAccountId()).isEqualTo(Account.INVENTORY.getState());
+        assertThat(first.getFromAccountId()).isEqualTo(AccountEnum.CASH.getState());
+        assertThat(first.getToAccountId()).isEqualTo(AccountEnum.INVENTORY.getState());
         assertThat(first.getTransactionId()).isEqualTo(id);
 
-        assertThat(dao.getAccountBalance(Account.CASH)).isEqualTo(0);
-        assertThat(dao.getAccountBalance(Account.INVENTORY)).isEqualTo(50);
+        assertThat(dao.getAccountBalance(AccountEnum.CASH)).isEqualTo(0);
+        assertThat(dao.getAccountBalance(AccountEnum.INVENTORY)).isEqualTo(50);
     }
 
     @Test
     public void testMakeRefund() {
         clearAll();
-        dao.updateAccount(Account.CASH, 108);
+        dao.updateAccount(AccountEnum.CASH, 108);
 
         RefundRequest request = new RefundRequest(100, 10, "this phone sucks");
         long id = dao.makeRefund(request);
@@ -128,27 +128,27 @@ public class TransactionDAOTest {
 
         Entry first = transaction.getEntries().get(0);
         assertThat(first.getAmount()).isEqualTo(request.getRefundAmount());
-        assertThat(first.getFromAccountId()).isEqualTo(Account.CASH.getState());
-        assertThat(first.getToAccountId()).isEqualTo(Account.REFUNDS_PAID.getState());
+        assertThat(first.getFromAccountId()).isEqualTo(AccountEnum.CASH.getState());
+        assertThat(first.getToAccountId()).isEqualTo(AccountEnum.REFUNDS_PAID.getState());
         assertThat(first.getTransactionId()).isEqualTo(id);
 
         Entry second = transaction.getEntries().get(1);
         assertThat(second.getAmount()).isEqualTo(request.getValueOfReturns());
-        assertThat(second.getFromAccountId()).isEqualTo(Account.COGS.getState());
-        assertThat(second.getToAccountId()).isEqualTo(Account.INVENTORY.getState());
+        assertThat(second.getFromAccountId()).isEqualTo(AccountEnum.COGS.getState());
+        assertThat(second.getToAccountId()).isEqualTo(AccountEnum.INVENTORY.getState());
         assertThat(second.getTransactionId()).isEqualTo(id);
 
         Entry third = transaction.getEntries().get(2);
         assertThat(third.getAmount()).isEqualTo(request.getRefundAmount() * 0.08);
-        assertThat(third.getFromAccountId()).isEqualTo(Account.CASH.getState());
-        assertThat(third.getToAccountId()).isEqualTo(Account.SALES_TAX_PAYABLE.getState());
+        assertThat(third.getFromAccountId()).isEqualTo(AccountEnum.CASH.getState());
+        assertThat(third.getToAccountId()).isEqualTo(AccountEnum.SALES_TAX_PAYABLE.getState());
         assertThat(third.getTransactionId()).isEqualTo(id);
 
-        assertThat(dao.getAccountBalance(Account.CASH)).isEqualTo(0);
-        assertThat(dao.getAccountBalance(Account.REFUNDS_PAID)).isEqualTo(100);
-        assertThat(dao.getAccountBalance(Account.COGS)).isEqualTo(-10);
-        assertThat(dao.getAccountBalance(Account.INVENTORY)).isEqualTo(10);
-        assertThat(dao.getAccountBalance(Account.SALES_TAX_PAYABLE)).isEqualTo(8);
+        assertThat(dao.getAccountBalance(AccountEnum.CASH)).isEqualTo(0);
+        assertThat(dao.getAccountBalance(AccountEnum.REFUNDS_PAID)).isEqualTo(100);
+        assertThat(dao.getAccountBalance(AccountEnum.COGS)).isEqualTo(-10);
+        assertThat(dao.getAccountBalance(AccountEnum.INVENTORY)).isEqualTo(10);
+        assertThat(dao.getAccountBalance(AccountEnum.SALES_TAX_PAYABLE)).isEqualTo(8);
     }
 
     @Test
@@ -165,11 +165,11 @@ public class TransactionDAOTest {
 
         Entry first = transaction.getEntries().get(0);
         assertThat(first.getAmount()).isEqualTo(request.getAmount());
-        assertThat(first.getFromAccountId()).isEqualTo(Account.INVESTMENT.getState());
-        assertThat(first.getToAccountId()).isEqualTo(Account.CASH.getState());
+        assertThat(first.getFromAccountId()).isEqualTo(AccountEnum.INVESTMENT.getState());
+        assertThat(first.getToAccountId()).isEqualTo(AccountEnum.CASH.getState());
         assertThat(first.getTransactionId()).isEqualTo(id);
 
-        assertThat(dao.getAccountBalance(Account.CASH)).isEqualTo(1);
-        assertThat(dao.getAccountBalance(Account.INVESTMENT)).isEqualTo(-1);
+        assertThat(dao.getAccountBalance(AccountEnum.CASH)).isEqualTo(1);
+        assertThat(dao.getAccountBalance(AccountEnum.INVESTMENT)).isEqualTo(-1);
     }
 }

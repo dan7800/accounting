@@ -1,44 +1,51 @@
 package accounting.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.hubspot.rosetta.annotations.RosettaCreator;
-import com.hubspot.rosetta.annotations.RosettaValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Objects;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public enum Account {
-    UNKNOWN(0),
-    EMPLOYEES(1),
-    INVENTORY(2),
-    CASH(3),
-    REVENUES(4),
-    COGS(5),
-    SALES_TAX_PAYABLE(6),
-    REFUNDS_PAID(7),
-    INVESTMENT(8);
+public class Account {
+    private long id;
+    private String name;
+    private double balance;
 
-    private final static int size = 8;
-    private final int state;
-    private final static String[] names = {
-        "Unknown","Employees","Inventory","Cash","Revenues",
-        "Cost of Goods Sold","Sales Tax Payable","Refunds Paid","Investment"};
-
-    Account(int state) {
-        this.state = state;
+    public Account(@JsonProperty("id") long id,
+                   @JsonProperty("name") String name,
+                   @JsonProperty("balance") double balance) {
+        this.id = id;
+        this.name = name;
+        this.balance = balance;
     }
 
-    public static String getName(int state) {
-        if (state < 0 || state > size) state = 0;
-        return names[state];
+    public long getId() {
+        return id;
     }
 
-    @RosettaValue
-    public int getState() {
-        return state;
+    public String getName() {
+        return name;
     }
 
-    @RosettaCreator
-    public static Account fromInt(int state) {
-        if (state > size) return UNKNOWN;
-        return Account.values()[state];
+    public double getBalance() { return balance; }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("id", id)
+                .add("name", name)
+                .add("balance", balance)
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(other == null ||  !(other instanceof Account)) {
+            return false;
+        } else {
+            Account t = (Account) other;
+            if (t.id != id) return false;
+            if (!t.name.equals(name)) return false;
+            if (t.balance != balance) return false;
+
+            return true;
+        }
     }
 }
