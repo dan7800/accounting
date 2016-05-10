@@ -29,14 +29,14 @@
 			
 			</elementGroup>
 			<textField isBlankWhenNull="true">
-				<reportElement x="180" y="5" width="375" height="35" style="Bold"/>
+				<reportElement x="180" y="5" width="375" height="35"/>
 				<textElement textAlignment="Left">
 					<font size="22"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{ReportTitle}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="180" y="40" width="375" height="15" style="Italic"/>
+				<reportElement x="180" y="40" width="375" height="15"/>
 				<textElement textAlignment="Right">
 					<font size="12"/>
 				</textElement>
@@ -66,21 +66,21 @@
 				<graphicElement/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="40" height="11" forecolor="#ffffff" backcolor="#333333" style="Bold"/>
+				<reportElement mode="Opaque" x="0" y="0" width="40" height="11" forecolor="#ffffff" backcolor="#333333"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Entry ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="40" y="0" width="90" height="11" forecolor="#ffffff" backcolor="#333333" style="Bold"/>
+				<reportElement mode="Opaque" x="40" y="0" width="90" height="11" forecolor="#ffffff" backcolor="#333333"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Account To ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="130" y="0" width="90" height="11" forecolor="#ffffff" backcolor="#333333" style="Bold"/>
+				<reportElement mode="Opaque" x="130" y="0" width="90" height="11" forecolor="#ffffff" backcolor="#333333"/>
 				<text><![CDATA[Account From ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="220" y="0" width="50" height="11" forecolor="#ffffff" backcolor="#333333" style="Bold"/>
+				<reportElement mode="Opaque" x="220" y="0" width="50" height="11" forecolor="#ffffff" backcolor="#333333"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Amount]]></text>
 			</staticText>
