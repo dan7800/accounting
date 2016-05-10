@@ -4,10 +4,21 @@
     <meta charset="UTF-8">
     <title>${title}</title>
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <script type="text/javascript">
+    function makeInvestment() {
+        var request = new XMLHttpRequest();
+        request.open('POST', 'investment/', true);
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        request.send('{"amount":100000,"description":"investing"}');
+        alert("Investment request sent.");
+    }
+    </script>
 </head>
 <body>
     <h1> Welcome to ${title}! </h1>
-    <p>We have these transactions:
+    <button type="button" onclick="makeInvestment">Invest $100,000</button>
+    <br/>
+    <div>We have these transactions:
     <#list transactions as transaction>
       <div>
         <h3> #${transaction.id} : ${transaction.timestampString} - ${transaction.description} </h3>
@@ -37,5 +48,6 @@
     <#else>
         No transactions found.
     </#list>
+    </div>
 </body>
 </html>
