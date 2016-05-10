@@ -44,7 +44,7 @@
 				<textElement textAlignment="Right">
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA[Written by KrutzKorp]]></text>
+				<text><![CDATA[Written by Krutz Corp]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -59,7 +59,7 @@
 				<textElement textAlignment="Center">
 					<font size="18"/>
 				</textElement>
-				<text><![CDATA[KrutzKorp Finance Report]]></text>
+				<text><![CDATA[Krutz Corp Finance Report]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
