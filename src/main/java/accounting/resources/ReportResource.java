@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +49,8 @@ public class ReportResource {
     	
     	Date month = new Date();
     	month.setDate(1);
-		String reportName = month.getMonth() + " Report";
+    	
+		String reportName = (month.getMonth() + 1) + "/" + (month.getYear() + 1900) + " Report";
     	
     	Map<String, Object> parameters = new HashMap<String, Object>();
     	parameters.put("ReportTitle", reportName);
