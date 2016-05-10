@@ -33,7 +33,7 @@ import io.dropwizard.db.DataSourceFactory;
 
 
 @Path("/reports")
-
+@Produces(MediaType.APPLICATION_JSON)
 public class ReportResource {
 
 	private DataSourceFactory dsf;
@@ -43,9 +43,8 @@ public class ReportResource {
     	this.dsf = dsf;
     }
     
-    @GET
     @SuppressWarnings("deprecation")
-	public Response generatePDF() throws JRException, IOException, SQLException {
+	public void generatePDF() throws JRException, IOException, SQLException {
     	String reportTemplate = "src/main/resources/ReportTemplate.jrxml";
     	
     	Date month = new Date();
@@ -60,9 +59,10 @@ public class ReportResource {
     	Connection connection = DriverManager.getConnection(dsf.getUrl(), dsf.getUser(), dsf.getPassword());
     	JasperPrint jasperprint = JasperFillManager.fillReport(compiledReport, parameters, connection);
     	
-    	byte[] pdf = JasperExportManager.exportReportToPdf(jasperprint); 
+    	OutputStream output = new FileOutputStream(new File(System.getProperty("user.home") + "/Downloads/MonthlyReport.pdf")); 
+    	JasperExportManager.exportReportToPdfStream(jasperprint, output); 
+    	output.close();
     	
-    	return Response.ok(pdf, MediaType.APPLICATION_OCTET_STREAM).build();
     }
 
 }
