@@ -7,7 +7,7 @@
     <script type="text/javascript">
     function makeInvestment() {
         var request = new XMLHttpRequest();
-        request.open('POST', 'investment/', true);
+        request.open('POST', 'investment?apiKey=investment', true);
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         request.send('{"amount":100000,"description":"investing"}');
         alert("Investment request sent.");
