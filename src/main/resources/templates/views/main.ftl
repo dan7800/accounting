@@ -11,6 +11,7 @@
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         request.send('{"amount":100000,"description":"investing"}');
         alert("Investment request sent.");
+        location.reload();
     }
     </script>
 </head>
