@@ -4,6 +4,8 @@ import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import accounting.data.TransactionDAO;
+import io.dropwizard.db.DataSourceFactory;
+
 import org.skife.jdbi.v2.DBI;
 
 import javax.inject.Named;
@@ -46,6 +48,12 @@ public class AccountingModule implements Module {
     public String providesSalesKey(AccountingConfiguration configuration) {
         return configuration.getSalesKey();
     }
+    
+    @Provides
+    public DataSourceFactory providesDSF(AccountingConfiguration configuration){
+    	return configuration.getDatabase();
+    }
+    
 
     @Provides
     @Named("investmentKey")
