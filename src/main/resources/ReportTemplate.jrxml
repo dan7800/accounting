@@ -80,7 +80,7 @@
 				<text><![CDATA[To Account]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="130" y="0" width="90" height="11" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+				<reportElement mode="Opaque" x="145" y="0" width="90" height="11" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
 				<text><![CDATA[From Account]]></text>
 			</staticText>
 			<staticText>
