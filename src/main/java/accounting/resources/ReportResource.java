@@ -14,12 +14,14 @@ import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 
-@Path("/")
+@Path("/pdf-report")
 public class ReportResource {
 
 	private DataSourceFactory dsf;
@@ -29,21 +31,19 @@ public class ReportResource {
     	this.dsf = dsf;
     }
 
-    @SuppressWarnings("deprecation")
     @GET
-    @Path("/pdf-report")
     @Produces({"application/pdf"})
 	public StreamingOutput generatePDF() throws JRException, IOException, SQLException {
         String reportTemplate = "src/main/resources/ReportTemplate.jrxml";
 
-        Date month = new Date();
-        month.setDate(1);
+        LocalDate month = LocalDate.now();
+        month.withDayOfMonth(1);
 
-        String reportName = (month.getMonth() + 1) + "/" + (month.getYear() + 1900) + " Report";
+        String reportName = (month.getMonth().getValue()) + "/" + (month.getYear()) + " Report";
 
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("ReportTitle", reportName);
-        parameters.put("Date", month);
+        parameters.put("Date", Date.from(month.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         JasperReport compiledReport = JasperCompileManager.compileReport(reportTemplate);
 
         return new StreamingOutput() {
