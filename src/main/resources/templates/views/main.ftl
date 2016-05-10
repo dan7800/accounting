@@ -19,6 +19,10 @@
     <h1> Welcome to ${title}! </h1>
     <button type="button" onclick="makeInvestment()">Invest $100,000</button>
     <br/>
+    <form action="/pdf-report" method="get">
+        <input type="submit" value="Generate PDF Report">
+    </form>
+    <br/>
     <div>We have these transactions:
     <#list transactions as transaction>
       <div>
