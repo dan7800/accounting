@@ -11,14 +11,14 @@
 	<parameter name="Date" class="java.util.Date">
 	</parameter>
 	
-	<queryString><![CDATA[SELECT entries.id, entries.toAccountId, entries.fromAccountId, entries.amount FROM entries, transactions WHERE entries.transactionId = transactions.id AND transactions.timestamp < $P{Date}]]></queryString>
-	<field name="EntryID" class="java.lang.Long">
+	<queryString><![CDATA[SELECT entries.id, entries.toAccountId, entries.fromAccountId, entries.amount FROM entries, transactions WHERE entries.transactionId = transactions.id AND transactions.timestamp > $P{Date}]]></queryString>
+	<field name="id" class="java.lang.Long">
 	</field>
-	<field name="AccountTo" class="java.lang.Long">
+	<field name="toAccountId" class="java.lang.Long">
 	</field>
-	<field name="AccountFrom" class="java.lang.Long">
+	<field name="fromAccountId" class="java.lang.Long">
 	</field>
-	<field name="Amount" class="java.lang.Double">
+	<field name="amount" class="java.lang.Double">
 	</field>
 
 	
@@ -74,17 +74,17 @@
 				<text><![CDATA[Entry ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="40" y="0" width="145" height="11" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+				<reportElement mode="Opaque" x="40" y="0" width="90" height="11" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
 				<textElement textAlignment="Center"/>
-				<text><![CDATA[Account To]]></text>
+				<text><![CDATA[Account To ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="185" y="0" width="50" height="11" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
-				<text><![CDATA[Account From]]></text>
+				<reportElement mode="Opaque" x="130" y="0" width="90" height="11" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+				<text><![CDATA[Account From ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="235" y="0" width="35" height="11" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
-				<textElement textAlignment="Right"/>
+				<reportElement mode="Opaque" x="220" y="0" width="50" height="11" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+				<textElement textAlignment="Center"/>
 				<text><![CDATA[Amount]]></text>
 			</staticText>
 		</band>
@@ -99,24 +99,24 @@
 			<textField>
 				<reportElement x="1" y="0" width="35" height="11">
 				</reportElement>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Long"><![CDATA[$F{EntryID}]]></textFieldExpression>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="40" y="0" width="110" height="11"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.Long"><![CDATA[$F{AccountTo}]]></textFieldExpression>
+				<reportElement x="40" y="0" width="90" height="11"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{toAccountId}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="155" y="0" width="25" height="11"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.Long"><![CDATA[$F{AccountFrom}]]></textFieldExpression>
+				<reportElement x="130" y="0" width="90" height="11"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{fromAccountId}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="185" y="0" width="50" height="11"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$F{Amount}]]></textFieldExpression>
+				<reportElement x="220" y="0" width="50" height="11"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{amount}]]></textFieldExpression>
 			</textField>
 
 			<line>
