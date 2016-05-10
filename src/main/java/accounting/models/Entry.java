@@ -1,8 +1,10 @@
 package accounting.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Entry {
 
     private long id;
@@ -34,6 +36,10 @@ public class Entry {
     public long getToAccountId() {
         return toAccountId;
     }
+
+    public String getToAccount() { return Account.getName((int)this.getToAccountId());}
+
+    public String getFromAccount() { return Account.getName((int)this.getFromAccountId());}
 
     public long getFromAccountId() {
         return fromAccountId;

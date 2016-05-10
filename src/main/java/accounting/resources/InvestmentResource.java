@@ -1,7 +1,7 @@
 package accounting.resources;
 
 import accounting.data.TransactionDAO;
-import accounting.models.RefundRequest;
+import accounting.models.InvestmentRequest;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -10,25 +10,24 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/refund")
+@Path("/investment")
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
-public class RefundResource {
+public class InvestmentResource {
 
     private TransactionDAO transactionDAO;
-    private String salesKey;
+    private String investmentKey;
 
     @Inject
-    public RefundResource(TransactionDAO transactionDAO, @Named("salesKey") String salesKey) {
+    public InvestmentResource(TransactionDAO transactionDAO, @Named("investmentKey") String investmentKey) {
         this.transactionDAO = transactionDAO;
-        this.salesKey = salesKey;
+        this.investmentKey = investmentKey;
     }
 
     @POST
-    public long post(@Valid RefundRequest refundRequest, @QueryParam("apiKey") String apiKey) {
-        if(!salesKey.equals(apiKey)) {
+    public long post(@Valid InvestmentRequest investmentRequest, @QueryParam("apiKey") String apiKey) {
+        if (!investmentKey.equals(apiKey)) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
-        return transactionDAO.makeRefund(refundRequest);
+        return transactionDAO.invest(investmentRequest);
     }
 }

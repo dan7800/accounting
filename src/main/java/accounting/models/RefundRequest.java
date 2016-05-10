@@ -3,9 +3,14 @@ package accounting.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 
+import javax.validation.constraints.Min;
+
 public class RefundRequest {
 
+    @Min(0)
     private double refundAmount;
+
+    @Min(0)
     private double valueOfReturns;
     private String description;
 

@@ -18,10 +18,13 @@ CREATE TABLE `entries` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `accounts` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
   `balance` decimal(60, 30) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `accounts` (`name`) VALUES ('Employees'), ('Inventory'), ('Cash'), ('Revenues'), ('Cost of Goods Sold'), ('Sales Tax Payable'), ('Refunds Paid');
+INSERT INTO `accounts` (`id`, `name`) VALUES (1, 'Employees'), (2, 'Inventory'), (3, 'Cash'), (4, 'Revenues'), (5, 'Cost of Goods Sold'), (6, 'Sales Tax Payable'), (7, 'Refunds Paid');
+
+--changeset keegan:2 dbms:mysql
+INSERT INTO `accounts` (`id`, `name`) VALUES (8, 'Investment');

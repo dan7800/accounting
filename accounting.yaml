@@ -3,10 +3,10 @@ database:
   driverClass: com.mysql.jdbc.Driver
 
   # the username
-  user: root
+  user: accounting
 
   # the password
-  password: root
+  password: accounting
 
   # the JDBC URL
   url: jdbc:mysql://localhost:3306/accounting
@@ -39,6 +39,7 @@ database:
 inventoryKey: inventory
 humanResourcesKey: human_resources
 salesKey: sales
+investmentKey: investment
 
 server:
   applicationConnectors:
