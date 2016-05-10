@@ -2,9 +2,6 @@
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
 <jasperReport name="MonthlyReport" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
-	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Arial_Italic" isDefault="false" fontName="Arial" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 
 	<parameter name="ReportTitle" class="java.lang.String">
 	</parameter>
@@ -32,14 +29,14 @@
 			
 			</elementGroup>
 			<textField isBlankWhenNull="true">
-				<reportElement x="180" y="5" width="375" height="35" style="Arial_Bold"/>
+				<reportElement x="180" y="5" width="375" height="35" style="Bold"/>
 				<textElement textAlignment="Left">
 					<font size="22"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{ReportTitle}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="180" y="40" width="375" height="15" style="Arial_Italic"/>
+				<reportElement x="180" y="40" width="375" height="15" style="Italic"/>
 				<textElement textAlignment="Right">
 					<font size="12"/>
 				</textElement>
@@ -69,21 +66,21 @@
 				<graphicElement/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="40" height="11" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+				<reportElement mode="Opaque" x="0" y="0" width="40" height="11" forecolor="#ffffff" backcolor="#333333" style="Bold"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Entry ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="40" y="0" width="90" height="11" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+				<reportElement mode="Opaque" x="40" y="0" width="90" height="11" forecolor="#ffffff" backcolor="#333333" style="Bold"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Account To ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="130" y="0" width="90" height="11" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+				<reportElement mode="Opaque" x="130" y="0" width="90" height="11" forecolor="#ffffff" backcolor="#333333" style="Bold"/>
 				<text><![CDATA[Account From ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="220" y="0" width="50" height="11" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+				<reportElement mode="Opaque" x="220" y="0" width="50" height="11" forecolor="#ffffff" backcolor="#333333" style="Bold"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Amount]]></text>
 			</staticText>
