@@ -1,8 +1,10 @@
 package accounting.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hubspot.rosetta.annotations.RosettaCreator;
 import com.hubspot.rosetta.annotations.RosettaValue;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public enum Account {
     UNKNOWN(0),
     EMPLOYEES(1),
@@ -14,10 +16,19 @@ public enum Account {
     REFUNDS_PAID(7),
     INVESTMENT(8);
 
+    private final static int size = 8;
     private final int state;
+    private final static String[] names = {
+        "Unknown","Employees","Inventory","Cash","Revenues",
+        "Cost of Goods Sold","Sales Tax Payable","Refunds Paid","Investment"};
 
     Account(int state) {
         this.state = state;
+    }
+
+    public static String getName(int state) {
+        if (state < 0 || state > size) state = 0;
+        return names[state];
     }
 
     @RosettaValue
@@ -27,7 +38,7 @@ public enum Account {
 
     @RosettaCreator
     public static Account fromInt(int state) {
-        if (state > 8) return UNKNOWN;
+        if (state > size) return UNKNOWN;
         return Account.values()[state];
     }
 }

@@ -8,6 +8,7 @@ import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapperFactory;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,6 +49,10 @@ public abstract class TransactionDAO {
 
     @org.skife.jdbi.v2.sqlobject.Transaction
     public Transaction get(long id) {
+        return getHelper(id);
+    }
+
+    private Transaction getHelper(long id) {
         List<Entry> entries = selectEntriesByTransactionId(id);
         Transaction transaction = selectTransaction(id);
         if (Objects.isNull(transaction)) {
@@ -131,5 +136,22 @@ public abstract class TransactionDAO {
         insertEntryAndUpdateAccounts(id, Account.CASH, Account.INVESTMENT, investmentRequest.getAmount());
 
         return id;
+    }
+
+    @SqlQuery("SELECT id FROM transactions")
+    protected abstract List<Long> selectAllTransactionIds();
+
+    @org.skife.jdbi.v2.sqlobject.Transaction
+    public List<Transaction> getAllTransactions() {
+        // list of transactions to return
+        List<Transaction> transactions = new ArrayList<>();
+        // get all transaction Ids
+        List<Long> transactionIds = selectAllTransactionIds();
+        // get each transaction individually so that entries are loaded into the transaction
+        for (long id : transactionIds ) {
+            transactions.add(getHelper(id));
+        }
+        // return the list of transactions
+        return transactions;
     }
 }
